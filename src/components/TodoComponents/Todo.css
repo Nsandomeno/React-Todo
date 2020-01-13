@@ -1,0 +1,12 @@
+.reg {
+    background-color: green;
+    width: 20%;
+    text-align: center;
+
+}
+
+.reg.done {
+    text-decoration: line-through;
+    background-color: greenyellow;
+
+}
