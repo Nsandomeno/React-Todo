@@ -43,12 +43,19 @@ class App extends React.Component {
     })
   }
 
+  clearCompleted = (id) => {
+    const uncompleteList = this.state.todoList.filter(todo => todo.done === false)
+    this.setState({
+      todoList: uncompleteList
+    })
+  }
+
 
 
   render() {
     return (
       <div>
-        <TodoForm todoList={this.state.todoList} addTodo={this.addTodo}  />
+        <TodoForm todoList={this.state.todoList} addTodo={this.addTodo} clearCompleted={this.clearCompleted}  />
        <TodoList todoList={this.state.todoList} markComplete={this.markComplete}  />
       </div>
     );

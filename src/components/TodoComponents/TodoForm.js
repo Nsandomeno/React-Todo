@@ -24,6 +24,8 @@ class TodoForm extends React.Component {
         })
     }
 
+   
+
     
 
     render() {
@@ -38,6 +40,7 @@ class TodoForm extends React.Component {
                     />
                 </form>
                 <button onClick={this.handleSubmit}>Add a Todo</button>
+                <button onClick={() => this.props.clearCompleted(this.props.todoList.id)}>Clear Completed</button>
             </div>
         )
     }
