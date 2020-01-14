@@ -14,9 +14,17 @@ class App extends React.Component {
       name: '',
       id: '',
       done: false
-    },]
+    },],
+    searchTerm: ''
     }
   }
+
+    //   handleChange = (event) => {
+    //     event.preventDefault()
+    //     this.setState({
+    //         searchTerm: event.target.value
+    //     });
+    // }
 
   markComplete = (id) => {
     const newTodoList = this.state.todoList.map((todo) => {
@@ -40,13 +48,46 @@ class App extends React.Component {
     }
     this.setState({
       todoList: [...this.state.todoList, newTodo]
-    })
+    },
+    this.saveToLocal
+    )
   }
+
+
 
   clearCompleted = (id) => {
     const uncompleteList = this.state.todoList.filter(todo => todo.done === false)
     this.setState({
       todoList: uncompleteList
+    })
+  }
+
+  handleSearch = (todoName) => {
+    const searchResults = this.state.todoList.filter(todo => todo.name.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+    this.setState({
+      todoList: searchResults
+    })
+  }
+
+  handleChange = (event) => {
+    event.preventDefault()
+    this.setState({
+        searchTerm: event.target.value
+    });
+  }
+
+  saveToLocal = () => {
+    const local = this.state.todoList
+    localStorage.setItem('PreSearchState', JSON.stringify(local) )
+
+  }
+
+  clearSearch = (event) => {
+    event.preventDefault()
+    const oldState = JSON.parse(localStorage.getItem('PreSearchState'))
+    this.setState({
+      todoList: oldState,
+      searchTerm: ''
     })
   }
 
@@ -56,6 +97,19 @@ class App extends React.Component {
     return (
       <div>
         <TodoForm todoList={this.state.todoList} addTodo={this.addTodo} clearCompleted={this.clearCompleted}  />
+        <div>
+          <form>
+            <input 
+            type="text"
+            name="searchTerm"
+            value={this.state.searchTerm}
+            placeholder="Search"
+            onChange={this.handleChange}
+            />
+          </form>
+          <button onClick={this.handleSearch}>Search</button>
+          <button onClick={this.clearSearch}>Clear Search</button>
+        </div>
        <TodoList todoList={this.state.todoList} markComplete={this.markComplete}  />
       </div>
     );
