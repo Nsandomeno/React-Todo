@@ -14,7 +14,7 @@ class App extends React.Component {
       name: '',
       id: '',
       done: false
-    },],
+    },] || '',
     searchTerm: ''
     }
   }
@@ -57,9 +57,11 @@ class App extends React.Component {
 
   clearCompleted = (id) => {
     const uncompleteList = this.state.todoList.filter(todo => todo.done === false)
+    const clearAll =  localStorage.removeItem('PreSearchState')
     this.setState({
       todoList: uncompleteList
-    })
+    })  
+    return clearAll 
   }
 
   handleSearch = (todoName) => {
@@ -89,6 +91,9 @@ class App extends React.Component {
       todoList: oldState,
       searchTerm: ''
     })
+    // if (localStorage === null) {
+    //   return alert("There is nothing to clear. Please add a task.")
+    // }
   }
 
 
@@ -107,8 +112,16 @@ class App extends React.Component {
             onChange={this.handleChange}
             />
           </form>
-          <button onClick={this.handleSearch}>Search</button>
-          <button onClick={this.clearSearch}>Clear Search</button>
+          { localStorage.length === 0 ?
+          <div>
+            <button onClick={this.handleSearch}>Search</button>
+          </div> :
+          <div>
+            <button onClick={this.handleSearch}>Search</button>
+            <button onClick={this.clearSearch}>Clear Search</button>
+          </div>
+          }
+
         </div>
        <TodoList todoList={this.state.todoList} markComplete={this.markComplete}  />
       </div>
